@@ -1,5 +1,6 @@
 import { ProductCard } from "../../components"
 import { useState, useEffect } from 'react'
+import ProductsList from "../Products/ProductsList";
 
 const HomePage = () => {
   const [images, setImages] = useState({
@@ -130,49 +131,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      {/* Recent Bestsellers Section */}
-      <div className="mt-12">
-        <h2 className="text-lg font-semibold mb-6">Recent Bestsellers</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
-          <ProductCard 
-            title="Left to Fear"
-            author="Blake Pierce"
-            rating={3}
-            image={images.collection} 
-          />
-          <ProductCard 
-            title="Malibu Rising"
-            author="Taylor Jenkins Reid"
-            rating={4}
-            image={images.collection} 
-          />
-          <ProductCard 
-            title="Black Ice"
-            author="Brad Thor"
-            rating={3}
-            image={images.collection} 
-          />
-          <ProductCard 
-            title="The Silent Patient"
-            author="Alex Michaelides"
-            rating={5}
-            image={images.collection} 
-          />
-          <ProductCard 
-            title="The Midnight Library"
-            author="Matt Haig"
-            rating={4}
-            image={images.collection} 
-          />
-          <ProductCard 
-            title="The Four Winds"
-            author="Kristin Hannah"
-            rating={4}
-            image={images.collection} 
-          />
-        </div>
-      </div>
+      <ProductsList />
+     
     </div>
   )
 }
