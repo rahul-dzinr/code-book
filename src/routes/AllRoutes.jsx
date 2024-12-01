@@ -6,10 +6,10 @@ import ProductsList from "../pages/Products/ProductsList"
 const AllRoutes = () => {
   return (
     <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/product" element={<ProductsList />}  />
-        <Route path="/products" element={<ProductDetail />} />
-    </Routes>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/products" element={<ProductsList />} />
+    <Route path="/product/:id" element={<ProductDetail />} />
+  </Routes>
   )
 }
 

@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 import Rating from "./Rating";
 
-const ProductCard = ({ title, author, rating, image, price, isBestseller }) => {
+const ProductCard = ({ title, author, rating, image, price, isBestseller, id }) => {
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate(`/product/${id}`); // Navigate to the product detail page with the product ID
+  };
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 shadow-lg rounded-lg transition-all hover:shadow-xl">
+    <div
+    onClick={handleViewDetails} 
+     className="bg-white dark:bg-gray-800 p-4 shadow-lg rounded-lg transition-all hover:shadow-xl">
       <div className="aspect-[3/4] rounded-lg overflow-hidden mb-4 relative">
         <img
           src={image}

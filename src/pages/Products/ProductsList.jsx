@@ -3,36 +3,29 @@ import { gsap } from "gsap";
 import { ProductCard } from "../../components";
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
+import { fetchProducts } from "../../services/productService";
+
 
 const ProductsList = () => {
-  const [images, setImages] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
+  const [products, setProducts] = useState([]); // Change from {} to []
+   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(16);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const books = [
-    { title: "Left to Fear", author: "Blake Pierce", rating: 3, price: 12.99, isBestseller: false },
-    { title: "Malibu Rising", author: "Taylor Jenkins Reid", rating: 4, price: 16.99, isBestseller: true },
-    { title: "Black Ice", author: "Brad Thor", rating: 3, price: 14.49, isBestseller: false },
-    { title: "The Silent Patient", author: "Alex Michaelides", rating: 5, price: 18.99, isBestseller: true },
-    { title: "The Midnight Library", author: "Matt Haig", rating: 4, price: 13.49, isBestseller: false },
-    { title: "The Four Winds", author: "Kristin Hannah", rating: 4, price: 19.99, isBestseller: true },
-  ];
-
+  
   useEffect(() => {
-    const fetchImages = async () => {
-      const generatedImages = books.map(() => ({
-        image: `https://picsum.photos/320/480?random=${Math.random()}`
-      }));
-      setImages(generatedImages);
-    };
+    const getProducts = async () => {
+      const data = await fetchProducts();
+      console.log(data)
+      setProducts(data);
+    }
 
-    fetchImages();
-  }, [books]);
+    getProducts();
+  }, []);
 
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+  const currentBooks = products.slice(indexOfFirstBook, indexOfLastBook);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -64,16 +57,18 @@ const ProductsList = () => {
             title={book.title}
             author={book.author}
             rating={book.rating}
-            image={images[index]?.image || ""}
+            image={book.poster || book.image_local || ""} // Use the poster field from your data
             price={book.price}
             isBestseller={book.isBestseller}
-          />
+            id={book.id} // Add this line to pass the id
+
+          /> 
         ))}
       </div>
 
       <Pagination
         currentPage={currentPage}
-        totalPages={Math.ceil(books.length / booksPerPage)}
+        totalPages={Math.ceil(products.length / booksPerPage)}
         onPageChange={handlePageChange}
       />
 
