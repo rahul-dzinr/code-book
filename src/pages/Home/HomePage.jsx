@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ProductCard } from "../../components";
 import ProductsList from "../Products/ProductsList";
+import Search from './Search';
 
 const HomePage = () => {
   const [images, setImages] = useState({
@@ -42,28 +43,7 @@ const HomePage = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif mb-4 text-shadow">New & Trending</h1>
           <p className="text-gray-600 dark:text-gray-400 mb-6">Explore new worlds from authors</p>
           
-          <div className="relative mb-8 max-w-xl">
-            <input 
-              type="text"
-              placeholder="Titles, author, or topics"
-              className="input w-full pl-10"
-            />
-            <svg 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              xmlns="http://www.w3.org/2000/svg" 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-            </svg>
-          </div>
-
+          <Search />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {['mainBook1', 'mainBook2', 'mainBook3'].map((book, index) => (
               <div key={index} className="aspect-[3/4] rounded-lg overflow-hidden shadow-xl">

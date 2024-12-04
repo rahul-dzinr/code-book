@@ -1,13 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Rating } from '../components';
-import { fetchProductById } from './Products/productService';
+import { fetchProductById } from '../services/productService';
+import useTitle from '../hooks/useTitle';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null); // State to hold the product data
   const [loading, setLoading] = useState(true); // State to track loading status
   const [error, setError] = useState(null); // State to track errors
+  useTitle(product.name)
 
   useEffect(() => {
     const getProduct = async () => {

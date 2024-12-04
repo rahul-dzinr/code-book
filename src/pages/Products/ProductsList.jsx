@@ -3,25 +3,29 @@ import { gsap } from "gsap";
 import { ProductCard } from "../../components";
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
+import { useLocation } from "react-router-dom";
 import { fetchProducts } from "../../services/productService";
 
 
 const ProductsList = () => {
+  
   const [products, setProducts] = useState([]); // Change from {} to []
    const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(16);
   const [filterOpen, setFilterOpen] = useState(false);
 
+  const search = useLocation().search;
+  const searchTerm = new URLSearchParams(search).get("q");
   
   useEffect(() => {
     const getProducts = async () => {
-      const data = await fetchProducts();
+      const data = await fetchProducts(searchTerm);
       console.log(data)
       setProducts(data);
     }
 
     getProducts();
-  }, []);
+  }, [searchTerm]);
 
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
