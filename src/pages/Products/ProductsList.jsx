@@ -5,24 +5,38 @@ import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
 import { useLocation } from "react-router-dom";
 import { fetchProducts } from "../../services/productService";
-
+import { useFilter } from "../../contexts/FilterContext";
 
 const ProductsList = () => {
-  
-  const [products, setProducts] = useState([]); // Change from {} to []
-   const [currentPage, setCurrentPage] = useState(1);
+  const {products, initialProductList }= useFilter();
+  const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(16);
   const [filterOpen, setFilterOpen] = useState(false);
 
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+
+
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get("q");
-  
+
   useEffect(() => {
     const getProducts = async () => {
-      const data = await fetchProducts(searchTerm);
-      console.log(data)
-      setProducts(data);
-    }
+      setLoading(true);
+      try{
+        const data = await fetchProducts(searchTerm);
+        initialProductList(data)
+        setLoading(false);
+        console.log(data);
+      }catch (err){
+        setError(err.message);
+        setLoading(false);
+      }
+     
+      
+    };
 
     getProducts();
   }, [searchTerm]);
@@ -38,9 +52,12 @@ const ProductsList = () => {
       y: 50,
       duration: 0.5,
       stagger: 0.1,
-      ease: "power2.out"
+      ease: "power2.out",
     });
   };
+
+  if(loading) return <div>Loading...</div>
+  if(error) return <div>{error}</div>
 
   return (
     <div className="p-6">
@@ -65,8 +82,7 @@ const ProductsList = () => {
             price={book.price}
             isBestseller={book.isBestseller}
             id={book.id} // Add this line to pass the id
-
-          /> 
+          />
         ))}
       </div>
 
@@ -80,6 +96,5 @@ const ProductsList = () => {
     </div>
   );
 };
-
 export default ProductsList;
 
